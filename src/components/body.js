@@ -1,8 +1,9 @@
 import Cards from "./Cards";
-import { useState,useEffect } from "react";
+import { useState,useEffect, use } from "react";
 import Shimmer from "./shimmer";
 import { Link } from "react-router-dom";
 import  "../../index.css";
+import useOnlineStatus from "../utilities/useOnlineStatus";
 // import { useEffect } from "react";
 // import { restaurantData } from "../utilities/cardData";
 
@@ -11,6 +12,7 @@ const Body = () =>{
 
     const [filteredData,setfilteredData] = useState([]);
     const [allData,setallData] = useState([]);
+    console.log(allData); 
     // searchText is a local state variable and setsearchText is a function to update the value of searchText
     // searchText is by default an empty string
 
@@ -44,17 +46,24 @@ const Body = () =>{
     // }
 
     // we can use a ternary operator also here instead of if condition
+
+    const onlineStatus = useOnlineStatus();
+    if(onlineStatus === false){
+        return (
+            <h1 className="offline-message">🔴 Offline, Please check your internet connection!!</h1>
+        );
+    }
     return filteredData.length === 0 ? ( 
     <Shimmer/>
     ) : (
-        <div className ="app-body">
-            <div className ="Search">
+        <div className ="bg-[#f5f5f5] w-full p-4 min-h-screen">
+            <div className ="flex p-4 gap-7 ml-4">
                  
                 {/*  In React (JSX), the for attribute is a reserved keyword, so JSX uses htmlFor to avoid conflicts. */}
-                <input type="text" placeholder="Search for your favourite food -" id="search" value={searchText} onChange={(e)=>{
+                <input type="text" placeholder="Search for your favourite food -" className="w-[20%] bg-white p-3 rounded-2xl" value={searchText} onChange={(e)=>{
                     setsearchText(e.target.value);
                 }}/>
-                <button className="search-btn" onClick={()=>{
+                <button className="border-1 border-solid border-gray-400 rounded-xl bg-white px-3.5 font-bold text-sm tracking-wider text-gray-500 cursor-pointer mr-4" onClick={()=>{
                     const restauarantSearch = filteredData.filter((res)=>
                         res.info.name.toLowerCase().includes(searchText.toLowerCase())
                         
@@ -62,7 +71,7 @@ const Body = () =>{
                     setallData(restauarantSearch);
                 }}>Search</button>
 
-                <button className="filter-btn" onClick={()=>{
+                <button className="border-1 border-solid border-gray-400 rounded-xl bg-white px-8 font-bold text-sm tracking-wider text-gray-500 cursor-pointer" onClick={()=>{
                     const filterList = filteredData.filter(
                         (res) => res.info.avgRating > 4.3
                     );
@@ -70,7 +79,7 @@ const Body = () =>{
                 }}
                 > Top Rated Restaurant </button>
             </div>
-           <div className="resturant-card">
+           <div className="flex flex-wrap p-4 ">
 
                 
                 {allData.map((restaurant) => (

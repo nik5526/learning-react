@@ -14,7 +14,7 @@
 //in class we can not access props directly we have to make a constructor to acces it and call via this.props.
 //in class component if we have to use state we have to use this.state and to update the state we have to use this.setState() method.
 // see react class component or react lifecycle to understand it more.
-export class UserData extends React.Component{
+class UserData extends React.Component{
 
     constructor(props){
         super(props);
@@ -41,11 +41,13 @@ export class UserData extends React.Component{
         const {name,location} = this.props;  
         const{count,count1} = this.state;
         return (
-        <div className="user-page">
-            <h1>Name - {name}</h1>
-            <h2>Location - {location}</h2>
-            <h3>Contact Us - nikhil@gmail.com</h3>
+        <div className="bg-white p-6 border border-gray-300 rounded-lg shadow-md mt-4">
+            <h1 className="font-bold text-xl">Name - {name}</h1>
+            <h2 className="font-bold text-lg">Location - {location}</h2>
+            <h3 className="font-bold text-lg">Contact Us - nikhil@gmail.com</h3>
         </div>
     );
     };
 }
+
+export default UserData;
