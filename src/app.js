@@ -1,4 +1,4 @@
-import React, { lazy,Suspense} from "react";
+import React, { lazy,Suspense,useContext,useState,useEffect} from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/body";
@@ -8,19 +8,30 @@ import About from "./components/About";
 import ContactUs from "./components/ContactUs";
 import RoutingError from "./components/RoutingError";   
 import RestaurantDetails from "./components/restauarantDetails";
-import Grocery from "./components/Grocery";
-import { Suspense } from "react";
 import Shimmer from "./components/shimmer";
-
+import UserContext from "./utilities/useContext";
+ 
 const Main = () =>{
-    return (
-        <div className="app">
-            <Header/>
-            {/* <ErrorBoundary> */}
-            <Outlet/>
-            {/* </ErrorBoundary> */}
-        </div>
 
+    const[userName,setuserName]= useState();
+
+    useEffect(()=>{
+        const data = {
+            name : "NR",
+        }
+        setuserName(data.name);
+    },[]);
+    return (
+        <UserContext.Provider value={{loggedInUser : userName , setuserName}}>
+            <div className="app">
+                <UserContext.Provider value={{loggedInUser : "NIK"}}>
+                    <Header/>
+                </UserContext.Provider>
+                {/* <ErrorBoundary> */}
+                <Outlet/>
+                {/* </ErrorBoundary> */}
+            </div>
+        </UserContext.Provider>
     );
 
 };

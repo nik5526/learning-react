@@ -1,9 +1,10 @@
-import Cards from "./Cards";
-import { useState,useEffect, use } from "react";
+import Cards,{higherOrder} from "./Cards";
+import { useState,useEffect,useContext } from "react";
 import Shimmer from "./shimmer";
 import { Link } from "react-router-dom";
 import  "../../index.css";
 import useOnlineStatus from "../utilities/useOnlineStatus";
+import UserContext from "../utilities/useContext";
 // import { useEffect } from "react";
 // import { restaurantData } from "../utilities/cardData";
 
@@ -12,15 +13,17 @@ const Body = () =>{
 
     const [filteredData,setfilteredData] = useState([]);
     const [allData,setallData] = useState([]);
-    console.log(allData); 
     // searchText is a local state variable and setsearchText is a function to update the value of searchText
     // searchText is by default an empty string
 
     const[searchText,setsearchText] = useState("");
+    const PromotedCards = higherOrder(Cards);
 
     useEffect(()=> {
         fetchData();
     },[]);  
+    
+    
 
     const fetchData = async () => {
         try {
@@ -53,6 +56,9 @@ const Body = () =>{
             <h1 className="offline-message">🔴 Offline, Please check your internet connection!!</h1>
         );
     }
+
+    const{loggedInUser,setuserName} = useContext(UserContext);
+
     return filteredData.length === 0 ? ( 
     <Shimmer/>
     ) : (
@@ -78,13 +84,20 @@ const Body = () =>{
                     setallData(filterList);
                 }}
                 > Top Rated Restaurant </button>
+                <div className="self-center">
+                    <label>UserName - </label>
+                    <input type="text" placeholder="Type to change user" className=" bg-white p-2 rounded-xl text-gray-500" value={loggedInUser} onChange={(e)=>setuserName(e.target.value)}
+                    />
+                </div>
             </div>
            <div className="flex flex-wrap p-4 ">
 
                 
                 {allData.map((restaurant) => (
                     <Link key={restaurant.info.id} className="link"
-                    to={"/restaurant/" + restaurant.info.id}><Cards  restData={restaurant} /> </Link>
+                    to={"/restaurant/" + restaurant.info.id}>
+                        {restaurant.info.promoted ? <PromotedCards restData={restaurant} /> : <Cards restData={restaurant} />}
+                         </Link>
                 ))}
              
 

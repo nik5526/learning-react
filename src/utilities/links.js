@@ -9,3 +9,5 @@ export const IMAGE_URL = "http://media-assets.swiggy.com/swiggy/image/upload/fl_
 export const MENU_URL = "https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=28.4465037&lng=77.5205731&restaurantId=";
 
 export const MENU2_URL = "&catalog_qa=undefined&submitAction=ENTER";
+
+export const RestaurantDetails_URL = "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/";

@@ -14,7 +14,9 @@
 //in class we can not access props directly we have to make a constructor to acces it and call via this.props.
 //in class component if we have to use state we have to use this.state and to update the state we have to use this.setState() method.
 // see react class component or react lifecycle to understand it more.
+import UserContext from "../utilities/useContext";
 class UserData extends React.Component{
+
 
     constructor(props){
         super(props);
@@ -43,6 +45,11 @@ class UserData extends React.Component{
         return (
         <div className="bg-white p-6 border border-gray-300 rounded-lg shadow-md mt-4">
             <h1 className="font-bold text-xl">Name - {name}</h1>
+            <div> 
+                <UserContext.Consumer>
+                    {(data)=> <h1 className="text-xl font-semibold">{data.loggedInUser}</h1>}
+                </UserContext.Consumer>
+            </div>
             <h2 className="font-bold text-lg">Location - {location}</h2>
             <h3 className="font-bold text-lg">Contact Us - nikhil@gmail.com</h3>
         </div>

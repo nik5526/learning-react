@@ -29,10 +29,16 @@ const Cards = (props) =>{
 
 //higher order component 
 //input - Restaurant cards , output - Promoted restaurant cards
+//here what it will do is it will take the Cards component as input and it will return a new component which will have some additional features like it will have a label promoted restaurant and then it will render the Cards component with all the props passed to it.
 export  const higherOrder = (Cards)=>{
-    return() => {
-        return <h1>Higher Order Component</h1>;
+    return(props) => {
+        return (
+            <div>
+                <label>Promoted Restaurant</label>
+                <Cards {...props} />
+            </div>
+        );
     };
 }
 
-export default Cards;  
+export default Cards;   
